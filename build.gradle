@@ -27,6 +27,12 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.2.0'
+
+
+
 }
 
 tasks.named('test') {
