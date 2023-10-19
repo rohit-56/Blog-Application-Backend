@@ -7,12 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import java.util.Date;
+
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Getter
@@ -32,7 +37,16 @@ public class UserEntity {
     @NonNull
     private String email;
 
-    @NonNull
+    @Nullable
     private String password;
+
+    @Nullable
+    private String image;
+
+    @NonNull
+    private String bio;
+
+    @CreatedDate
+    private Date createdDate;
 
 }

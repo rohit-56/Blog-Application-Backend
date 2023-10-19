@@ -22,4 +22,12 @@ public class UserService {
     public List<UserEntity> getAllUsers(){
         return userRepository.findAll();
     }
+
+    public void updateUserDetails(UserEntity userEntity){
+        userRepository.updateUser(userEntity.getUsername(), userEntity.getEmail(), userEntity.getImage(), userEntity.getBio(), userEntity.getId());
+    }
+
+    public UserEntity getUserById(Long id){
+        return userRepository.getById(id);
+    }
 }

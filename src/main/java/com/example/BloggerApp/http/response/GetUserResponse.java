@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Builder
 @NoArgsConstructor
@@ -18,4 +20,10 @@ public class GetUserResponse {
     public String email;
 
     public String password;
+
+    public String image;
+
+    public String bio;
+
+    public Date createdDate;
 }
