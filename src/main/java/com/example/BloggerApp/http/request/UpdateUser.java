@@ -3,7 +3,9 @@ package com.example.BloggerApp.http.request;
 import lombok.Getter;
 
 @Getter
-public class CreateUser {
+public class UpdateUser {
+
+    public Long id;
 
     public String username;
 
