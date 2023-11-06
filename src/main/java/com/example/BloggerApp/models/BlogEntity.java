@@ -24,8 +24,8 @@ public class BlogEntity {
     @NonNull
     private String subtitle;
 
-    @OneToMany(targetEntity = TagEntity.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_id")
+    @OneToMany(targetEntity = TagEntity.class,cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "blog_id")
     private List<TagEntity> tagEntities;
 
     @NonNull

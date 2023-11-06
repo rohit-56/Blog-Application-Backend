@@ -2,15 +2,19 @@ package com.example.BloggerApp.controller;
 
 import com.example.BloggerApp.http.request.CreateBlogRequest;
 import com.example.BloggerApp.http.request.TagRequest;
+import com.example.BloggerApp.http.request.UpdateBlogRequest;
 import com.example.BloggerApp.http.response.GetBlogResponse;
 import com.example.BloggerApp.http.response.GetTagResponse;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.TagEntity;
 import com.example.BloggerApp.service.BlogService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +44,21 @@ public class BlogController {
     public ResponseEntity<List<GetBlogResponse>> getAllBlogs(){
         List<BlogEntity> blogEntityList = blogService.getBlogEntities();
         return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<GetBlogResponse> getBlogById(@PathVariable("id") long id){
+        BlogEntity blogEntity = blogService.getBlogById(id);
+        return new ResponseEntity<>(fromBlogModelToBlogResponse.apply(blogEntity),HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateBlog(@PathVariable("id") long id, @RequestBody UpdateBlogRequest updateBlogRequest){
+   //  long blogId = blogService.deleteBlogById(id);
+//     BlogEntity updatedBlogEntity = blogService.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest));
+        blogService.updateBlogEntityId(updateBlogRequest);
+        return new ResponseEntity<>("Updated",HttpStatus.ACCEPTED);
+
     }
 
     private final Function<BlogEntity,GetBlogResponse> fromBlogModelToBlogResponse = this :: apply;
