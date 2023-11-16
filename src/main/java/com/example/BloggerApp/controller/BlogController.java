@@ -53,12 +53,15 @@ public class BlogController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateBlog(@PathVariable("id") long id, @RequestBody UpdateBlogRequest updateBlogRequest){
-   //  long blogId = blogService.deleteBlogById(id);
-//     BlogEntity updatedBlogEntity = blogService.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest));
-        blogService.updateBlogEntityId(updateBlogRequest);
-        return new ResponseEntity<>("Updated",HttpStatus.ACCEPTED);
+    public ResponseEntity<GetBlogResponse> updateBlog(@PathVariable("id") long id, @RequestBody UpdateBlogRequest updateBlogRequest){
+        BlogEntity blogEntity = blogService.updateBlogEntityId(updateBlogRequest);
+        return new ResponseEntity<>(fromBlogModelToBlogResponse.apply(blogEntity),HttpStatus.ACCEPTED);
 
+    }
+    @GetMapping("/get/tagList/{blogId}")
+    public ResponseEntity<List<GetTagResponse>> getTagsList(@PathVariable("blogId") long blogId){
+        List<TagEntity> tagEntityList = blogService.getTagList(blogId);
+        return new ResponseEntity<>(tagEntityList.stream().map(fromTagModelToTagResponse).collect(Collectors.toList()),HttpStatus.OK);
     }
 
     private final Function<BlogEntity,GetBlogResponse> fromBlogModelToBlogResponse = this :: apply;
