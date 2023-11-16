@@ -39,16 +39,20 @@ public class BlogService {
         blogRepository.deleteById(id);
     }
 
-    public void updateBlogEntityId(UpdateBlogRequest updateBlogRequest){
+    public BlogEntity updateBlogEntityId(UpdateBlogRequest updateBlogRequest){
         BlogEntity blogEntity = blogRepository.getById(updateBlogRequest.getId());
         blogEntity.getTagEntities().clear();
         blogEntity.setTitle(updateBlogRequest.getTitle());
         blogEntity.setBody(updateBlogRequest.getBody());
         blogEntity.setImageCover(updateBlogRequest.getImageCover());
         blogEntity.setSubtitle(updateBlogRequest.getSubtitle());
-       // List<TagEntity> tagEntities = updateBlogRequest.getTagRequests().stream()
         blogEntity.getTagEntities().addAll(updateBlogRequest.getTagRequests().stream().map(fromTagRequestToTagEntity).collect(Collectors.toList()));
-        blogRepository.save(blogEntity);
+       return blogRepository.save(blogEntity);
+    }
+
+    public List<TagEntity> getTagList(long blogId){
+        BlogEntity blogEntity = blogRepository.getById(blogId);
+        return blogEntity.getTagEntities();
     }
 
     private final Function<TagRequest,TagEntity> fromTagRequestToTagEntity =
