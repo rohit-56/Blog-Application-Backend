@@ -5,7 +5,6 @@ import com.example.BloggerApp.http.request.UpdateBlogRequest;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.TagEntity;
 import com.example.BloggerApp.repository.BlogRepository;
-import com.example.BloggerApp.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +16,8 @@ public class BlogService {
 
     private BlogRepository blogRepository;
 
-    private TagRepository tagRepository;
-
-    public BlogService(BlogRepository blogRepository,TagRepository tagRepository){
+    public BlogService(BlogRepository blogRepository){
         this.blogRepository = blogRepository;
-        this.tagRepository = tagRepository;
     }
     public BlogEntity addBlog(BlogEntity blogEntity){
         return blogRepository.save(blogEntity);
