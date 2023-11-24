@@ -3,8 +3,12 @@ package com.example.BloggerApp.service;
 import com.example.BloggerApp.http.request.TagRequest;
 import com.example.BloggerApp.http.request.UpdateBlogRequest;
 import com.example.BloggerApp.models.BlogEntity;
+import com.example.BloggerApp.models.CategoryEntity;
 import com.example.BloggerApp.models.TagEntity;
+import com.example.BloggerApp.models.UserEntity;
 import com.example.BloggerApp.repository.BlogRepository;
+import com.example.BloggerApp.repository.CategoryRepository;
+import com.example.BloggerApp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +20,20 @@ public class BlogService {
 
     private BlogRepository blogRepository;
 
-    public BlogService(BlogRepository blogRepository){
+    private UserRepository userRepository;
+
+    private CategoryRepository categoryRepository;
+
+    public BlogService(BlogRepository blogRepository,UserRepository userRepository,CategoryRepository categoryRepository){
         this.blogRepository = blogRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
-    public BlogEntity addBlog(BlogEntity blogEntity){
+    public BlogEntity addBlog(BlogEntity blogEntity,long userid,long categoryId){
+        UserEntity userEntity = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User Not Found"));
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category Not Found"));
+        blogEntity.setUserEntity(userEntity);
+        blogEntity.setCategoryEntity(categoryEntity);
         return blogRepository.save(blogEntity);
     }
 

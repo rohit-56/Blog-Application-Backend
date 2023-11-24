@@ -37,4 +37,10 @@ public class GetBlogResponse {
     @JsonProperty("image_cover")
     private String imageCover;
 
+    @JsonProperty("category_id")
+    private Long categoryId;
+
+    @JsonProperty("user_id")
+    private Long userId;
+
 }

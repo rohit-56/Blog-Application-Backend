@@ -34,9 +34,9 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createBlog(@RequestBody CreateBlogRequest createBlogRequest){
-      blogService.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest));
+    @PostMapping("/create/user/{user_id}/category/{category_id}")
+    public ResponseEntity<String> createBlog(@RequestBody CreateBlogRequest createBlogRequest,@PathVariable("user_id") long userId,@PathVariable("category_id") long categoryId){
+      blogService.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest),userId,categoryId);
       return new ResponseEntity<>("Blog Created",HttpStatus.CREATED);
     }
 
@@ -74,6 +74,8 @@ public class BlogController {
              getBlogResponse.setBody(blogEntity.getBody());
              getBlogResponse.setImageCover(blogEntity.getImageCover());
              getBlogResponse.setCreatedAt(blogEntity.getCreatedAt());
+             getBlogResponse.setUserId(blogEntity.getUserEntity().getId());
+             getBlogResponse.setCategoryId(blogEntity.getCategoryEntity().getId());
              return getBlogResponse;
             }
 
