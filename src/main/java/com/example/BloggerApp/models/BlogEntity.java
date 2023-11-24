@@ -36,6 +36,10 @@ public class BlogEntity {
     @NonNull
     private String imageCover;
 
+    @ManyToOne
+    private CategoryEntity categoryEntity;
 
+    @ManyToOne
+    private UserEntity userEntity;
 
 }

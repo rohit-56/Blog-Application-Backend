@@ -9,13 +9,19 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
@@ -48,5 +54,9 @@ public class UserEntity {
 
     @CreatedDate
     private Date createdDate;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "user_entity_id")
+    private List<BlogEntity> blogEntity = new ArrayList<>();
 
 }
