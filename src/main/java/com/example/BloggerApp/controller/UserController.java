@@ -4,7 +4,7 @@ import com.example.BloggerApp.http.request.CreateUser;
 import com.example.BloggerApp.http.request.UpdateUser;
 import com.example.BloggerApp.http.response.GetUserResponse;
 import com.example.BloggerApp.models.UserEntity;
-import com.example.BloggerApp.service.UserService;
+import com.example.BloggerApp.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,29 +23,29 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService){
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl){
+        this.userServiceImpl = userServiceImpl;
     }
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody CreateUser createUser){
-        userService.createUser(fromUserRequestToUserEntity.apply(createUser));
+        userServiceImpl.createUser(fromUserRequestToUserEntity.apply(createUser));
         return new ResponseEntity<>("User Created",HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<GetUserResponse>> getAllUser(){
-        var usersList = userService.getAllUsers();
+        var usersList = userServiceImpl.getAllUsers();
         return new ResponseEntity<>(usersList.stream().map(fromUserEntityToUserResponse).collect(Collectors.toList()),HttpStatus.OK);
     }
 
     @PutMapping("/update")
     public ResponseEntity<GetUserResponse> updateUserDetails(@RequestBody UpdateUser updateUser){
         var userEntity =  fromUpdateUserRequestToUserEntity.apply(updateUser);
-         userService.updateUserDetails(userEntity);
-         var updatedUserEntity = userService.getUserById(updateUser.getId());
+         userServiceImpl.updateUserDetails(userEntity);
+         var updatedUserEntity = userServiceImpl.getUserById(updateUser.getId());
         return new ResponseEntity<>(fromUserEntityToUserResponse.apply(updatedUserEntity),HttpStatus.ACCEPTED);
     }
 

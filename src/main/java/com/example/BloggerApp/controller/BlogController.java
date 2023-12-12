@@ -7,8 +7,7 @@ import com.example.BloggerApp.http.response.GetBlogResponse;
 import com.example.BloggerApp.http.response.GetTagResponse;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.TagEntity;
-import com.example.BloggerApp.service.BlogService;
-import org.springframework.data.repository.query.Param;
+import com.example.BloggerApp.service.impl.BlogServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,39 +27,39 @@ import java.util.stream.Collectors;
 @RequestMapping("/blog")
 public class BlogController {
 
-    private BlogService blogService;
+    private BlogServiceImpl blogServiceImpl;
 
-    public BlogController(BlogService blogService){
-        this.blogService = blogService;
+    public BlogController(BlogServiceImpl blogServiceImpl){
+        this.blogServiceImpl = blogServiceImpl;
     }
 
     @PostMapping("/create/user/{user_id}/category/{category_id}")
     public ResponseEntity<String> createBlog(@RequestBody CreateBlogRequest createBlogRequest,@PathVariable("user_id") long userId,@PathVariable("category_id") long categoryId){
-      blogService.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest),userId,categoryId);
+      blogServiceImpl.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest),userId,categoryId);
       return new ResponseEntity<>("Blog Created",HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<GetBlogResponse>> getAllBlogs(){
-        List<BlogEntity> blogEntityList = blogService.getBlogEntities();
+        List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntities();
         return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<GetBlogResponse> getBlogById(@PathVariable("id") long id){
-        BlogEntity blogEntity = blogService.getBlogById(id);
+        BlogEntity blogEntity = blogServiceImpl.getBlogById(id);
         return new ResponseEntity<>(fromBlogModelToBlogResponse.apply(blogEntity),HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<GetBlogResponse> updateBlog(@PathVariable("id") long id, @RequestBody UpdateBlogRequest updateBlogRequest){
-        BlogEntity blogEntity = blogService.updateBlogEntityId(updateBlogRequest);
+        BlogEntity blogEntity = blogServiceImpl.updateBlogEntityId(updateBlogRequest);
         return new ResponseEntity<>(fromBlogModelToBlogResponse.apply(blogEntity),HttpStatus.ACCEPTED);
 
     }
     @GetMapping("/get/tagList/{blogId}")
     public ResponseEntity<List<GetTagResponse>> getTagsList(@PathVariable("blogId") long blogId){
-        List<TagEntity> tagEntityList = blogService.getTagList(blogId);
+        List<TagEntity> tagEntityList = blogServiceImpl.getTagList(blogId);
         return new ResponseEntity<>(tagEntityList.stream().map(fromTagModelToTagResponse).collect(Collectors.toList()),HttpStatus.OK);
     }
 
