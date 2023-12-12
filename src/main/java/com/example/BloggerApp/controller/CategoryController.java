@@ -2,7 +2,7 @@ package com.example.BloggerApp.controller;
 
 import com.example.BloggerApp.http.request.CreateCategoryRequest;
 import com.example.BloggerApp.http.response.GetCategoryResponse;
-import com.example.BloggerApp.service.CategoryService;
+import com.example.BloggerApp.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +20,21 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryServiceImpl;
 
     @PostMapping("/create")
     public ResponseEntity<GetCategoryResponse> createCategory(@RequestBody CreateCategoryRequest createCategoryRequest){
-       return new ResponseEntity<>(categoryService.addCategory(createCategoryRequest), HttpStatus.CREATED);
+       return new ResponseEntity<>(categoryServiceImpl.addCategory(createCategoryRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<GetCategoryResponse> getCategoryById(@PathVariable("id") long id){
-        return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
+        return new ResponseEntity<>(categoryServiceImpl.getCategoryById(id), HttpStatus.OK);
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<GetCategoryResponse>> getCategoryList(){
-        return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
+        return new ResponseEntity<>(categoryServiceImpl.getAllCategories(), HttpStatus.OK);
     }
 
 }
