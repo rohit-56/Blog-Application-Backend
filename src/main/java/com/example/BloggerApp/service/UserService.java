@@ -1,33 +1,18 @@
 package com.example.BloggerApp.service;
 
 import com.example.BloggerApp.models.UserEntity;
-import com.example.BloggerApp.repository.UserRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private UserRepository userRepository;
+    void createUser(UserEntity userEntity);
 
-    public UserService(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
+    List<UserEntity> getAllUsers();
 
-    public void createUser(UserEntity userEntity){
-    userRepository.save(userEntity);
-    }
+    void updateUserDetails(UserEntity userEntity);
 
-    public List<UserEntity> getAllUsers(){
-        return userRepository.findAll();
-    }
+    UserEntity getUserById(Long id);
 
-    public void updateUserDetails(UserEntity userEntity){
-        userRepository.updateUser(userEntity.getUsername(), userEntity.getEmail(), userEntity.getImage(), userEntity.getBio(), userEntity.getId());
-    }
 
-    public UserEntity getUserById(Long id){
-        return userRepository.getById(id);
-    }
 }
