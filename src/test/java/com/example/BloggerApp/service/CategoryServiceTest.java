@@ -12,7 +12,7 @@ import org.modelmapper.ModelMapper;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CategoryServiceImplTest {
+public class CategoryServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
