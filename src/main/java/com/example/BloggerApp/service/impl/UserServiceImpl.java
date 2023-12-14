@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(UserEntity userEntity){
-    userRepository.save(userEntity);
+    public UserEntity createUser(UserEntity userEntity){
+    return userRepository.save(userEntity);
     }
 
     public List<UserEntity> getAllUsers(){

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BlogRepository extends JpaRepository<BlogEntity,Long> {
     BlogEntity getById(long id);
 
-    void deleteById(long id);
+    BlogEntity deleteById(long id);
 
     @Transactional
     @Modifying

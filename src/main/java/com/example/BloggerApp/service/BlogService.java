@@ -14,7 +14,7 @@ public interface BlogService {
 
     BlogEntity getBlogById(long id);
 
-    void deleteBlogById(long id);
+    BlogEntity deleteBlogById(long id);
 
     BlogEntity updateBlogEntityId(UpdateBlogRequest updateBlogRequest);
 

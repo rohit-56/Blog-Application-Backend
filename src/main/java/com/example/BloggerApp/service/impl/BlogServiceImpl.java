@@ -46,8 +46,8 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.getById(id);
     }
 
-    public void deleteBlogById(long id){
-        blogRepository.deleteById(id);
+    public BlogEntity deleteBlogById(long id){
+        return blogRepository.deleteById(id);
     }
 
     public BlogEntity updateBlogEntityId(UpdateBlogRequest updateBlogRequest){
