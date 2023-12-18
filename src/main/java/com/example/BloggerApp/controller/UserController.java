@@ -7,7 +7,9 @@ import com.example.BloggerApp.models.UserEntity;
 import com.example.BloggerApp.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +49,18 @@ public class UserController {
          userServiceImpl.updateUserDetails(userEntity);
          var updatedUserEntity = userServiceImpl.getUserById(updateUser.getId());
         return new ResponseEntity<>(fromUserEntityToUserResponse.apply(updatedUserEntity),HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<GetUserResponse> getUserById(@PathVariable("id") Long id){
+        var userEntity = userServiceImpl.getUserById(id);
+        return new ResponseEntity<>(fromUserEntityToUserResponse.apply(userEntity),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id){
+        userServiceImpl.deleteUseryId(id);
+        return new ResponseEntity<>("User Deleted",HttpStatus.ACCEPTED);
     }
 
     private final Function<UpdateUser,UserEntity> fromUpdateUserRequestToUserEntity =
