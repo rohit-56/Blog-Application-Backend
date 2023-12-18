@@ -66,6 +66,18 @@ public class BlogServiceImpl implements BlogService {
         return blogEntity.getTagEntities();
     }
 
+    @Override
+    public List<BlogEntity> getBlogEntitiesByCategoryId(Long categoryId) {
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("No category exist with this id:"+categoryId));
+        return blogRepository.getBlogByCategoryEntity(categoryEntity);
+    }
+
+    @Override
+    public List<BlogEntity> getBlogEntitiesByUserId(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("No user found with this id:"+userId));
+        return blogRepository.getBlogByUserEntity(userEntity);
+    }
+
     private final Function<TagRequest,TagEntity> fromTagRequestToTagEntity =
             tagRequest -> {
           TagEntity tagEntity = new TagEntity();
