@@ -1,6 +1,7 @@
 package com.example.BloggerApp.service.impl;
 
 import com.example.BloggerApp.http.request.CreateCategoryRequest;
+import com.example.BloggerApp.http.request.UpdateCategoryRequest;
 import com.example.BloggerApp.http.response.GetCategoryResponse;
 import com.example.BloggerApp.models.CategoryEntity;
 import com.example.BloggerApp.repository.CategoryRepository;
@@ -40,5 +41,18 @@ public class CategoryServiceImpl implements CategoryService {
     public List<GetCategoryResponse> getAllCategories(){
         List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
         return categoryEntityList.stream().map(e -> modelMapper.map(e,GetCategoryResponse.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public GetCategoryResponse updateCategory(UpdateCategoryRequest updateCategoryRequest) {
+        CategoryEntity categoryEntity = categoryRepository.findById(updateCategoryRequest.getId()).orElseThrow(() -> new RuntimeException("Category not found"));
+        categoryEntity.setTitle(updateCategoryRequest.getTitle());
+        CategoryEntity updatedCategory = categoryRepository.save(categoryEntity);
+        return modelMapper.map(updatedCategory,GetCategoryResponse.class);
+    }
+
+    @Override
+    public void deleteCategoryById(Long id) {
+       categoryRepository.deleteById(id);
     }
 }

@@ -1,14 +1,17 @@
 package com.example.BloggerApp.controller;
 
 import com.example.BloggerApp.http.request.CreateCategoryRequest;
+import com.example.BloggerApp.http.request.UpdateCategoryRequest;
 import com.example.BloggerApp.http.response.GetCategoryResponse;
 import com.example.BloggerApp.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +38,17 @@ public class CategoryController {
     @GetMapping("/get-all")
     public ResponseEntity<List<GetCategoryResponse>> getCategoryList(){
         return new ResponseEntity<>(categoryServiceImpl.getAllCategories(), HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<GetCategoryResponse> updateCategory(@RequestBody UpdateCategoryRequest updateCategoryRequest){
+        return new ResponseEntity<>(categoryServiceImpl.updateCategory(updateCategoryRequest),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id){
+       categoryServiceImpl.deleteCategoryById(id);
+       return new ResponseEntity<>("Category Deleted",HttpStatus.OK);
     }
 
 }

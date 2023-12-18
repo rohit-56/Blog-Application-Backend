@@ -63,6 +63,18 @@ public class BlogController {
         return new ResponseEntity<>(tagEntityList.stream().map(fromTagModelToTagResponse).collect(Collectors.toList()),HttpStatus.OK);
     }
 
+    @GetMapping("/get-by-categoryId/{categoryId}")
+    public ResponseEntity<List<GetBlogResponse>> getBlogEntitesByCategoryId(@PathVariable("categoryId") Long categoryId){
+        List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntitiesByCategoryId(categoryId);
+        return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-by-userId/{userId}")
+    public ResponseEntity<List<GetBlogResponse>> getBlogEntitesByUserId(@PathVariable("userId") Long userId){
+     List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntitiesByUserId(userId);
+     return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
     private final Function<BlogEntity,GetBlogResponse> fromBlogModelToBlogResponse = this :: apply;
     private GetBlogResponse apply(BlogEntity blogEntity){
              GetBlogResponse getBlogResponse = new GetBlogResponse();

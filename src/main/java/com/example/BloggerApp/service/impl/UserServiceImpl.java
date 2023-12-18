@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUserById(Long id){
         return userRepository.getById(id);
     }
+
+    @Override
+    public void deleteUseryId(Long id) {
+        userRepository.deleteById(id);
+    }
 }

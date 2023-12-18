@@ -19,4 +19,8 @@ public interface BlogService {
     BlogEntity updateBlogEntityId(UpdateBlogRequest updateBlogRequest);
 
     List<TagEntity> getTagList(long blogId);
+
+    List<BlogEntity> getBlogEntitiesByCategoryId(Long categoryId);
+
+    List<BlogEntity> getBlogEntitiesByUserId(Long userId);
 }

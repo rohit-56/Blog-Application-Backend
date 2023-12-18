@@ -1,6 +1,7 @@
 package com.example.BloggerApp.service;
 
 import com.example.BloggerApp.http.request.CreateCategoryRequest;
+import com.example.BloggerApp.http.request.UpdateCategoryRequest;
 import com.example.BloggerApp.http.response.GetCategoryResponse;
 
 import java.util.List;
@@ -11,4 +12,8 @@ public interface CategoryService {
 
     public GetCategoryResponse getCategoryById(long id);
     List<GetCategoryResponse> getAllCategories();
+
+    GetCategoryResponse updateCategory(UpdateCategoryRequest updateCategoryRequest);
+
+    void deleteCategoryById(Long id);
 }
