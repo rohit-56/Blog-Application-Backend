@@ -1,6 +1,7 @@
 package com.example.BloggerApp.http.response;
 
 
+import com.example.BloggerApp.models.Comment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class GetBlogResponse {
 
     @JsonProperty("id")
@@ -42,5 +44,8 @@ public class GetBlogResponse {
 
     @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("comments")
+    public Set<Comment> comments = new HashSet<>();
 
 }

@@ -87,6 +87,7 @@ public class BlogController {
              getBlogResponse.setCreatedAt(blogEntity.getCreatedAt());
              getBlogResponse.setUserId(blogEntity.getUserEntity().getId());
              getBlogResponse.setCategoryId(blogEntity.getCategoryEntity().getId());
+             getBlogResponse.setComments(blogEntity.getComments());
              return getBlogResponse;
             }
 

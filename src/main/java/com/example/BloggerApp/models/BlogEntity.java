@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,5 +43,8 @@ public class BlogEntity {
 
     @ManyToOne
     private UserEntity userEntity;
+
+    @OneToMany(mappedBy = "blogEntity",cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
 
 }
