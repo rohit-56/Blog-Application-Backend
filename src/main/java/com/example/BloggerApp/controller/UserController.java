@@ -5,8 +5,10 @@ import com.example.BloggerApp.http.request.UpdateUser;
 import com.example.BloggerApp.http.response.GetUserResponse;
 import com.example.BloggerApp.models.UserEntity;
 import com.example.BloggerApp.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,9 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserController(UserServiceImpl userServiceImpl){
         this.userServiceImpl = userServiceImpl;
@@ -79,7 +84,7 @@ public class UserController {
              var userEntity = new UserEntity();
              userEntity.setUsername(createUser.getUsername());
              userEntity.setEmail(createUser.getEmail());
-             userEntity.setPassword(createUser.getPassword());
+             userEntity.setPassword(passwordEncoder.encode(createUser.getPassword()));
              userEntity.setImage(createUser.getImage());
              userEntity.setBio(createUser.getBio());
              userEntity.setCreatedDate(new Date());
