@@ -20,6 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value = "update UserEntity u set u.username=:username,u.email=:email,u.image=:image,u.bio=:bio where u.id=:id")
     void updateUser(@Param("username") String username, @Param("email") String email, @Param("image") String image, @Param("bio") String bio, @Param("id") Long id);
 
-    UserEntity findUserEntityByEmail(String email);
+    UserEntity findUserEntityByUsername(String username);
 
 }
