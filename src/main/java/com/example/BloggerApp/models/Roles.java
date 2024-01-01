@@ -24,7 +24,6 @@ import javax.persistence.Table;
 @NoArgsConstructor(force = true)
 public class Roles {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
