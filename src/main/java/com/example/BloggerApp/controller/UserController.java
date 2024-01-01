@@ -8,6 +8,7 @@ import com.example.BloggerApp.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,10 +63,17 @@ public class UserController {
         return new ResponseEntity<>(fromUserEntityToUserResponse.apply(userEntity),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id){
         userServiceImpl.deleteUseryId(id);
         return new ResponseEntity<>("User Deleted",HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<GetUserResponse> registerUser(@RequestBody CreateUser createUser){
+       GetUserResponse getUserResponse = userServiceImpl.registerUser(createUser);
+       return new ResponseEntity<>(getUserResponse,HttpStatus.CREATED);
     }
 
     private final Function<UpdateUser,UserEntity> fromUpdateUserRequestToUserEntity =
