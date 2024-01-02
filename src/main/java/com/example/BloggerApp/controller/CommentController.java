@@ -3,9 +3,7 @@ package com.example.BloggerApp.controller;
 import com.example.BloggerApp.http.request.CommentRequest;
 import com.example.BloggerApp.http.request.UpdateCommentRequest;
 import com.example.BloggerApp.http.response.GetCommentResponse;
-import com.example.BloggerApp.models.Comment;
 import com.example.BloggerApp.service.impl.CommentServiceImpl;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +23,7 @@ public class CommentController {
     private CommentServiceImpl commentService;
 
     @PostMapping("/create/blog/{blogId}")
-    public ResponseEntity<GetCommentResponse> addComment(@RequestBody CommentRequest commentRequest,@PathVariable("blogId") Long blogId){
+    public ResponseEntity<GetCommentResponse> addComment(@RequestBody CommentRequest commentRequest, @PathVariable("blogId") Long blogId){
         GetCommentResponse comment = commentService.createComment(commentRequest,blogId);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
