@@ -6,12 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
+
 @Getter
 public class CommentRequest {
 
     @JsonProperty("content")
-    private String content;
+    public String content;
 }
