@@ -17,7 +17,7 @@ public class JWTTokenHelper implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 *60;
     private String secret = "jwtTokenKey1209hgllo";
 
     //retrieve username from jwt token
