@@ -4,6 +4,7 @@ import com.example.BloggerApp.http.request.CreateCategoryRequest;
 import com.example.BloggerApp.http.request.UpdateCategoryRequest;
 import com.example.BloggerApp.http.response.GetCategoryResponse;
 import com.example.BloggerApp.service.impl.CategoryServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@SecurityRequirement(name = "Bearer Authentication")
 public class CategoryController {
 
     @Autowired

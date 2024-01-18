@@ -4,6 +4,7 @@ import com.example.BloggerApp.http.request.CommentRequest;
 import com.example.BloggerApp.http.request.UpdateCommentRequest;
 import com.example.BloggerApp.http.response.GetCommentResponse;
 import com.example.BloggerApp.service.impl.CommentServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/comment")
+@SecurityRequirement(name = "Bearer Authentication")
 public class CommentController {
 
     @Autowired
