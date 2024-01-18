@@ -8,6 +8,7 @@ import com.example.BloggerApp.http.response.GetTagResponse;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.TagEntity;
 import com.example.BloggerApp.service.impl.BlogServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/blog")
+@SecurityRequirement(name = "Bearer Authentication")
 public class BlogController {
 
     private BlogServiceImpl blogServiceImpl;
