@@ -5,6 +5,7 @@ import com.example.BloggerApp.http.request.UpdateUser;
 import com.example.BloggerApp.http.response.GetUserResponse;
 import com.example.BloggerApp.models.UserEntity;
 import com.example.BloggerApp.service.impl.UserServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
 
     private UserServiceImpl userServiceImpl;
