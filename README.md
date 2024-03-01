@@ -1,7 +1,7 @@
 
 # Blog Application
 
-Blog Application is a user-friendly project where a user can register itself, post a blog, add comments.
+Blog Application is a user-friendly project where a user can register himself, post a blog, add comments.
 
 This repository contains the backend of a Blog Application project, which is responsible for handle all the blogs, user informations and is implemented using the Spring Boot Java Framework which serves as the web framework for the backend.
 
