@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
@@ -21,5 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     void updateUser(@Param("username") String username, @Param("email") String email, @Param("image") String image, @Param("bio") String bio, @Param("id") Long id);
 
     UserEntity findUserEntityByUsername(String username);
+
+    Optional<UserEntity> findByEmail(String email);
 
 }

@@ -1,5 +1,6 @@
 package com.example.BloggerApp.service.impl;
 
+import com.example.BloggerApp.common.exceptions.UserAlreadyExist;
 import com.example.BloggerApp.configurations.AppConstants;
 import com.example.BloggerApp.http.request.CreateUser;
 import com.example.BloggerApp.http.response.GetUserResponse;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -36,7 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserEntity createUser(UserEntity userEntity){
-    return userRepository.save(userEntity);
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(userEntity.getEmail());
+        if(!optionalUser.isEmpty()) {
+           throw new UserAlreadyExist("User Already Exist with this Email.Please Use Unique Email",404);
+        }
+        return userRepository.save(userEntity);
     }
 
     public List<UserEntity> getAllUsers(){
