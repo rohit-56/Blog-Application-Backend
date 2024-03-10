@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,8 +39,11 @@ public class CategoryController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<GetCategoryResponse>> getCategoryList(){
-        return new ResponseEntity<>(categoryServiceImpl.getAllCategories(), HttpStatus.OK);
+    public ResponseEntity<List<GetCategoryResponse>> getCategoryList(
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value = "limit",defaultValue = "2",required = false) Integer limit
+    ){
+        return new ResponseEntity<>(categoryServiceImpl.getAllCategories(pageNumber,limit), HttpStatus.OK);
     }
 
     @PutMapping("/update")

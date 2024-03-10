@@ -11,7 +11,7 @@ public interface CategoryService {
     GetCategoryResponse addCategory(CreateCategoryRequest createCategoryRequest);
 
     public GetCategoryResponse getCategoryById(long id);
-    List<GetCategoryResponse> getAllCategories();
+    List<GetCategoryResponse> getAllCategories(int pageNumber,int limit);
 
     GetCategoryResponse updateCategory(UpdateCategoryRequest updateCategoryRequest);
 

@@ -10,6 +10,9 @@ import com.example.BloggerApp.repository.BlogRepository;
 import com.example.BloggerApp.repository.CategoryRepository;
 import com.example.BloggerApp.repository.UserRepository;
 import com.example.BloggerApp.service.BlogService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +41,10 @@ public class BlogServiceImpl implements BlogService {
         return blogRepository.save(blogEntity);
     }
 
-    public List<BlogEntity> getBlogEntities(){
-        return blogRepository.findAll();
+    public List<BlogEntity> getBlogEntities(int pageNumber,int limit,String sortBy){
+        Pageable pageable = PageRequest.of(pageNumber,limit, Sort.by(sortBy));
+        List<BlogEntity> blogEntityList = blogRepository.findAll(pageable).getContent();
+        return  blogEntityList;
     }
 
     public BlogEntity getBlogById(long id){

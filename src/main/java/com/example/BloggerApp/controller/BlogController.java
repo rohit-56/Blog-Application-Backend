@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -42,8 +43,12 @@ public class BlogController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<GetBlogResponse>> getAllBlogs(){
-        List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntities();
+    public ResponseEntity<List<GetBlogResponse>> getAllBlogs(
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value = "limit",defaultValue = "2",required = false) Integer limit,
+            @RequestParam(value = "sortBy",defaultValue = "title",required = false) String sortBy
+    ){
+        List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntities(pageNumber,limit,sortBy);
         return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
 

@@ -11,6 +11,8 @@ import com.example.BloggerApp.repository.UserRepository;
 import com.example.BloggerApp.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +47,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userEntity);
     }
 
-    public List<UserEntity> getAllUsers(){
-        return userRepository.findAll();
+    public List<UserEntity> getAllUsers(int pageNumber,int limit){
+       Pageable pageable = PageRequest.of(pageNumber,limit);
+        return userRepository.findAll(pageable).getContent();
     }
 
     public void updateUserDetails(UserEntity userEntity){
