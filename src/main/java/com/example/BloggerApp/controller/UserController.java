@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -46,8 +47,9 @@ public class UserController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<GetUserResponse>> getAllUser(){
-        var usersList = userServiceImpl.getAllUsers();
+    public ResponseEntity<List<GetUserResponse>> getAllUser(@RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+                                                        @RequestParam(value = "limit",defaultValue = "2",required = false) Integer limit){
+        var usersList = userServiceImpl.getAllUsers(pageNumber,limit);
         return new ResponseEntity<>(usersList.stream().map(fromUserEntityToUserResponse).collect(Collectors.toList()),HttpStatus.OK);
     }
 

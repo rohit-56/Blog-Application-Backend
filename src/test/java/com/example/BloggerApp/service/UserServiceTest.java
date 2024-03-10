@@ -97,7 +97,7 @@ public class UserServiceTest {
 
        when(userRepository.findAll()).thenReturn(list);
 
-       List<UserEntity> users = userService.getAllUsers();
+       List<UserEntity> users = userService.getAllUsers(0,2);
 
        assertEquals(users.get(0).getUsername(),list.get(0).getUsername());
        assertEquals(users.get(0).getCreatedDate(),list.get(0).getCreatedDate());

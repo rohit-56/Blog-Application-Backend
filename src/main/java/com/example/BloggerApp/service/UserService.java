@@ -8,7 +8,7 @@ public interface UserService {
 
     UserEntity createUser(UserEntity userEntity);
 
-    List<UserEntity> getAllUsers();
+    List<UserEntity> getAllUsers(int pageNumber,int limit);
 
     void updateUserDetails(UserEntity userEntity);
 

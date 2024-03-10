@@ -65,8 +65,7 @@ public class UserEntity implements UserDetails {
     @CreatedDate
     private Date createdDate;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "user_entity_id")
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     private List<BlogEntity> blogEntity = new ArrayList<>();
 
 
