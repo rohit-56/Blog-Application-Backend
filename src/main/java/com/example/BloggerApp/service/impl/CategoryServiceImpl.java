@@ -8,6 +8,8 @@ import com.example.BloggerApp.repository.CategoryRepository;
 import com.example.BloggerApp.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +40,9 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(categoryEntity.get(),GetCategoryResponse.class);
     }
 
-    public List<GetCategoryResponse> getAllCategories(){
-        List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
+    public List<GetCategoryResponse> getAllCategories(int pageNumber,int limit){
+        Pageable pageable = PageRequest.of(pageNumber,limit);
+        List<CategoryEntity> categoryEntityList = categoryRepository.findAll(pageable).getContent();
         return categoryEntityList.stream().map(e -> modelMapper.map(e,GetCategoryResponse.class)).collect(Collectors.toList());
     }
 

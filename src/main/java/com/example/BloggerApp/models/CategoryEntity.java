@@ -33,8 +33,7 @@ public class CategoryEntity {
     @NonNull
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "category_entity_id")
+    @OneToMany(mappedBy = "categoryEntity",cascade = CascadeType.ALL)
     private List<BlogEntity> blogEntity = new ArrayList<>();
 
 }
