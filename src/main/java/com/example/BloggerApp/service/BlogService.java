@@ -10,7 +10,7 @@ public interface BlogService {
 
     BlogEntity addBlog(BlogEntity blogEntity, long userid, long categoryId);
 
-    List<BlogEntity> getBlogEntities();
+    List<BlogEntity> getBlogEntities(int pageNumber,int limit,String sortBy);
 
     BlogEntity getBlogById(long id);
 
