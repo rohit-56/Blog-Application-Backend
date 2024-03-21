@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +29,10 @@ public class LoginController {
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> createToken(@RequestBody LoginRequest loginRequest){
         this.authenticate(loginRequest.getUsername(),loginRequest.getPassword());
-
         UserDetails userDetails = customUserDetailService.loadUserByUsername(loginRequest.getUsername());
 
         String token = jwtTokenHelper.generateToken(userDetails);
@@ -49,6 +50,7 @@ public class LoginController {
         }
         catch (Exception e){
             System.out.println("Unable to Authorize Request");
+            throw new NullPointerException("Username or Password not found");
         }
     }
 }
