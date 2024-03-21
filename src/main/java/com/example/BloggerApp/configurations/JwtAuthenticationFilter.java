@@ -4,6 +4,8 @@ import com.example.BloggerApp.service.impl.CustomUserDetailService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +31,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestToken = request.getHeader("Authorization");
+        if(requestToken == null){
+            filterChain.doFilter(request,response);
+            return;
+        }
 
         String username = null;
         String token = null;
@@ -46,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         else{
             System.out.println("JWT token does not start with Bearer");
+            throw new AccessDeniedException("JWT token does not start with Bearer");
         }
 
         // once we get the token now validate it
@@ -63,6 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         else {
             System.out.println("Username is null or context is not null");
+            throw new InsufficientAuthenticationException("Username is null or context is not null");
         }
         filterChain.doFilter(request,response);
     }
