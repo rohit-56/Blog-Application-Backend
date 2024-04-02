@@ -1,6 +1,7 @@
 package com.example.BloggerApp.http.response;
 
 import com.example.BloggerApp.models.Roles;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class GetUserResponse {
 
     public String email;
 
+    @JsonIgnore
     public String password;
 
     public String image;
