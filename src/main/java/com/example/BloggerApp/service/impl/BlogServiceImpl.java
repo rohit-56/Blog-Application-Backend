@@ -2,6 +2,8 @@ package com.example.BloggerApp.service.impl;
 
 import com.example.BloggerApp.http.request.TagRequest;
 import com.example.BloggerApp.http.request.UpdateBlogRequest;
+import com.example.BloggerApp.http.response.GetBlogFeedResponse;
+import com.example.BloggerApp.http.response.GetBlogResponse;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.CategoryEntity;
 import com.example.BloggerApp.models.TagEntity;
@@ -15,7 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,6 +57,12 @@ public class BlogServiceImpl implements BlogService {
 
     public BlogEntity getBlogById(long id){
         return blogRepository.getById(id);
+    }
+
+    public List<GetBlogFeedResponse> getBlogWithUserAndCategoryDetails(int pageNumber,int limit){
+        List<Map<String,Object>> result=blogRepository.findAllBlogEntitywithUserDetails(limit,pageNumber);
+        List<GetBlogFeedResponse> getBlogFeedResponseList = result.stream().map(fromMapToFeedResponse).collect(Collectors.toList());
+        return getBlogFeedResponseList;
     }
 
     public BlogEntity deleteBlogById(long id){
@@ -88,5 +102,22 @@ public class BlogServiceImpl implements BlogService {
           TagEntity tagEntity = new TagEntity();
           tagEntity.setTag(tagRequest.getTag());
           return tagEntity;
+            };
+
+    private final Function<Map<String,Object>, GetBlogFeedResponse> fromMapToFeedResponse =
+            map ->{
+              GetBlogFeedResponse getBlogFeedResponse = new GetBlogFeedResponse();
+                BigInteger id = (BigInteger) map.get("id");
+              getBlogFeedResponse.setId(id.longValue());
+              getBlogFeedResponse.setTitle((String) map.get("title"));
+              getBlogFeedResponse.setContent((String) map.get("body"));
+              getBlogFeedResponse.setImageCover((String) map.get("cover"));
+              getBlogFeedResponse.setCategory((String) map.get("category"));
+              getBlogFeedResponse.setAuthorName((String) map.get("username"));
+              getBlogFeedResponse.setAuthorAvatar((String) map.get("image"));
+              Timestamp timestamp = (Timestamp) map.get("created_at");
+              LocalDate localDate = timestamp.toLocalDateTime().toLocalDate();
+              getBlogFeedResponse.setCreatedAt(""+localDate.getMonth()+" ,"+localDate.getDayOfMonth()+" "+localDate.getYear());
+              return getBlogFeedResponse;
             };
 }

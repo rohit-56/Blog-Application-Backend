@@ -74,11 +74,6 @@ public class UserController {
         return new ResponseEntity<>("User Deleted",HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<GetUserResponse> registerUser(@RequestBody CreateUser createUser){
-       GetUserResponse getUserResponse = userServiceImpl.registerUser(createUser);
-       return new ResponseEntity<>(getUserResponse,HttpStatus.CREATED);
-    }
 
     private final Function<UpdateUser,UserEntity> fromUpdateUserRequestToUserEntity =
             updateUser -> {

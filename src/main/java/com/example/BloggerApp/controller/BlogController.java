@@ -3,6 +3,7 @@ package com.example.BloggerApp.controller;
 import com.example.BloggerApp.http.request.CreateBlogRequest;
 import com.example.BloggerApp.http.request.TagRequest;
 import com.example.BloggerApp.http.request.UpdateBlogRequest;
+import com.example.BloggerApp.http.response.GetBlogFeedResponse;
 import com.example.BloggerApp.http.response.GetBlogResponse;
 import com.example.BloggerApp.http.response.GetTagResponse;
 import com.example.BloggerApp.models.BlogEntity;
@@ -11,6 +12,7 @@ import com.example.BloggerApp.service.impl.BlogServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,12 +38,14 @@ public class BlogController {
         this.blogServiceImpl = blogServiceImpl;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000",allowedHeaders = "*")
     @PostMapping("/create/user/{user_id}/category/{category_id}")
     public ResponseEntity<String> createBlog(@RequestBody CreateBlogRequest createBlogRequest,@PathVariable("user_id") long userId,@PathVariable("category_id") long categoryId){
       blogServiceImpl.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest),userId,categoryId);
       return new ResponseEntity<>("Blog Created",HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/get-all")
     public ResponseEntity<List<GetBlogResponse>> getAllBlogs(
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
@@ -51,6 +55,16 @@ public class BlogController {
         List<BlogEntity> blogEntityList = blogServiceImpl.getBlogEntities(pageNumber,limit,sortBy);
         return new ResponseEntity<>(blogEntityList.stream().map(fromBlogModelToBlogResponse).collect(Collectors.toList()), HttpStatus.OK);
     }
+
+    @GetMapping("/get-all-info")
+    public ResponseEntity<List<GetBlogFeedResponse>> getAllBlogsWithUserAndCategoryDetails(
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value = "limit",defaultValue = "2",required = false) Integer limit
+    ){
+        return new ResponseEntity<>(blogServiceImpl.getBlogWithUserAndCategoryDetails(pageNumber,limit), HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<GetBlogResponse> getBlogById(@PathVariable("id") long id){
