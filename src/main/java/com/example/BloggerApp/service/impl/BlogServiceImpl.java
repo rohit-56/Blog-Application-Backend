@@ -1,5 +1,6 @@
 package com.example.BloggerApp.service.impl;
 
+import com.example.BloggerApp.common.utils.Base64Converter;
 import com.example.BloggerApp.http.request.TagRequest;
 import com.example.BloggerApp.http.request.UpdateBlogRequest;
 import com.example.BloggerApp.http.response.GetBlogFeedResponse;
@@ -74,7 +75,12 @@ public class BlogServiceImpl implements BlogService {
         blogEntity.getTagEntities().clear();
         blogEntity.setTitle(updateBlogRequest.getTitle());
         blogEntity.setBody(updateBlogRequest.getBody());
-        blogEntity.setImageCover(updateBlogRequest.getImageCover());
+        try {
+            blogEntity.setImageCover(Base64Converter.decodeBase64(updateBlogRequest.getImageCover()));
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
         blogEntity.setSubtitle(updateBlogRequest.getSubtitle());
         blogEntity.getTagEntities().addAll(updateBlogRequest.getTagRequests().stream().map(fromTagRequestToTagEntity).collect(Collectors.toList()));
        return blogRepository.save(blogEntity);
@@ -111,7 +117,7 @@ public class BlogServiceImpl implements BlogService {
               getBlogFeedResponse.setId(id.longValue());
               getBlogFeedResponse.setTitle((String) map.get("title"));
               getBlogFeedResponse.setContent((String) map.get("body"));
-              getBlogFeedResponse.setImageCover((String) map.get("cover"));
+              getBlogFeedResponse.setImageCover((byte[]) map.get("cover"));
               getBlogFeedResponse.setCategory((String) map.get("category"));
               getBlogFeedResponse.setAuthorName((String) map.get("username"));
               getBlogFeedResponse.setAuthorAvatar((String) map.get("image"));

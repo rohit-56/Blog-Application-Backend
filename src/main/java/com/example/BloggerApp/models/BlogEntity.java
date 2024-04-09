@@ -35,8 +35,10 @@ public class BlogEntity {
 
     private LocalDateTime createdAt;
 
-    @NonNull
-    private String imageCover;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] imageCover;
 
     @ManyToOne
     private CategoryEntity categoryEntity;
