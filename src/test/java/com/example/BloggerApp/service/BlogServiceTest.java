@@ -73,7 +73,7 @@ public class BlogServiceTest {
         BlogEntity blogEntity = new BlogEntity();
         blogEntity.setSubtitle("Blog-Subtitle");
         blogEntity.setBody("This is test blog entity body");
-        blogEntity.setImageCover("Test image cover");
+       // blogEntity.setImageCover("Test image cover");
         blogEntity.setTitle("DSA");
         blogEntity.setCreatedAt(LocalDateTime.now());
 
@@ -91,7 +91,7 @@ public class BlogServiceTest {
         savedBlogEntity.setId(1L);
         savedBlogEntity.setSubtitle("Blog-Subtitle");
         savedBlogEntity.setBody("This is test blog entity body");
-        savedBlogEntity.setImageCover("Test image cover");
+       // savedBlogEntity.setImageCover("Test image cover");
         savedBlogEntity.setTitle("DSA");
         savedBlogEntity.setCreatedAt(LocalDateTime.now());
 
@@ -135,7 +135,7 @@ public class BlogServiceTest {
         savedBlogEntity.setId(1L);
         savedBlogEntity.setSubtitle("Blog-Subtitle");
         savedBlogEntity.setBody("This is test blog entity body");
-        savedBlogEntity.setImageCover("Test image cover");
+       // savedBlogEntity.setImageCover("Test image cover");
         savedBlogEntity.setTitle("DSA");
         savedBlogEntity.setCreatedAt(LocalDateTime.now());
 
@@ -182,7 +182,7 @@ public class BlogServiceTest {
         savedBlogEntity.setId(1L);
         savedBlogEntity.setSubtitle("Blog-Subtitle");
         savedBlogEntity.setBody("This is test blog entity body");
-        savedBlogEntity.setImageCover("Test image cover");
+       // savedBlogEntity.setImageCover("Test image cover");
         savedBlogEntity.setTitle("DSA");
         savedBlogEntity.setCreatedAt(LocalDateTime.now());
 

@@ -14,5 +14,4 @@ public class CreateBlogRequest {
 
     private String body;
 
-    private String imageCover;
 }

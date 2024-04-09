@@ -1,5 +1,6 @@
 package com.example.BloggerApp.controller;
 
+import com.example.BloggerApp.common.utils.Base64Converter;
 import com.example.BloggerApp.http.request.CreateBlogRequest;
 import com.example.BloggerApp.http.request.TagRequest;
 import com.example.BloggerApp.http.request.UpdateBlogRequest;
@@ -9,11 +10,15 @@ import com.example.BloggerApp.http.response.GetTagResponse;
 import com.example.BloggerApp.models.BlogEntity;
 import com.example.BloggerApp.models.TagEntity;
 import com.example.BloggerApp.service.impl.BlogServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,7 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
@@ -39,9 +47,17 @@ public class BlogController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000",allowedHeaders = "*")
-    @PostMapping("/create/user/{user_id}/category/{category_id}")
-    public ResponseEntity<String> createBlog(@RequestBody CreateBlogRequest createBlogRequest,@PathVariable("user_id") long userId,@PathVariable("category_id") long categoryId){
-      blogServiceImpl.addBlog(fromBlogRequestToBlogModel.apply(createBlogRequest),userId,categoryId);
+    @PostMapping(value = "/create/user/{user_id}/category/{category_id}",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<String> createBlog(@RequestParam("createBlogRequest") String createBlog, @RequestParam("blogCover") MultipartFile blogCover, @PathVariable("user_id") long userId, @PathVariable("category_id") long categoryId) throws Exception {
+        try {
+            CreateBlogRequest createBlogRequest = new ObjectMapper().readValue(createBlog, CreateBlogRequest.class);
+            BlogEntity blogEntity = fromBlogRequestToBlogModel.apply(createBlogRequest);
+            blogEntity.setImageCover(blogCover.getBytes());
+            blogServiceImpl.addBlog(blogEntity, userId, categoryId);
+        }
+        catch (Exception ex){
+            throw new Exception("Unable to Fetch Post Data from Request");
+        }
       return new ResponseEntity<>("Blog Created",HttpStatus.CREATED);
     }
 
@@ -104,7 +120,7 @@ public class BlogController {
              getBlogResponse.setSubtitle(blogEntity.getSubtitle());
              getBlogResponse.setGetTagResponses(blogEntity.getTagEntities().stream().map(fromTagModelToTagResponse).collect(Collectors.toList()));
              getBlogResponse.setBody(blogEntity.getBody());
-             getBlogResponse.setImageCover(blogEntity.getImageCover());
+             getBlogResponse.setImageCover(Base64Converter.encodeBase64(blogEntity.getImageCover()));
              getBlogResponse.setCreatedAt(blogEntity.getCreatedAt());
              getBlogResponse.setUserId(blogEntity.getUserEntity().getId());
              getBlogResponse.setCategoryId(blogEntity.getCategoryEntity().getId());
@@ -134,7 +150,6 @@ public class BlogController {
       blogEntity.setSubtitle(createBlogRequest.getSubtitle());
       blogEntity.setBody(createBlogRequest.getBody());
       blogEntity.setTagEntities(createBlogRequest.getTagRequests().stream().map(fromTagRequestToTagModel).collect(Collectors.toList()));
-      blogEntity.setImageCover(createBlogRequest.getImageCover());
       blogEntity.setCreatedAt(LocalDateTime.now());
         return blogEntity;
     }

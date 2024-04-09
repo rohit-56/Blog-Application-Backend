@@ -34,7 +34,7 @@ public class GetBlogFeedResponse {
     private String createdAt;
 
     @JsonProperty("cover")
-    private String imageCover;
+    private byte[] imageCover;
 
     @JsonProperty("category")
     private String category;
